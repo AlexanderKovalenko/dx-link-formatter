@@ -133,20 +133,22 @@ namespace DXLinkFormatter {
                 }
             }
 
-            if (!string.IsNullOrEmpty(rule.RemoveChars)) {
-                foreach (var chr in rule.RemoveChars) {
-                    result = result.Replace(chr, ' ');
-                }     
-            }
-
-            if (!string.IsNullOrEmpty(rule.ReplaceChars)) {
-                for (int i = 0; i < rule.ReplaceChars.Length; i += 2) {
-                    result = result.Replace(rule.ReplaceChars[i], rule.ReplaceChars[i + 1]);
+            if (rule != null) {
+                if (!string.IsNullOrEmpty(rule.RemoveChars)) {
+                    foreach (var chr in rule.RemoveChars) {
+                        result = result.Replace(chr, ' ');
+                    }
                 }
-            }
 
-            if (!string.IsNullOrEmpty(rule.TrimChars)) {
-                result = result.Trim(rule.TrimChars.ToCharArray());
+                if (!string.IsNullOrEmpty(rule.ReplaceChars)) {
+                    for (int i = 0; i < rule.ReplaceChars.Length; i += 2) {
+                        result = result.Replace(rule.ReplaceChars[i], rule.ReplaceChars[i + 1]);
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(rule.TrimChars)) {
+                    result = result.Trim(rule.TrimChars.ToCharArray());
+                }
             }
 
             return result;
