@@ -1,2 +1,4 @@
 # dx-link-formatter
-Format links in the clipboard according to the specified rules
+Format links in the clipboard according to the specified rules.
+
+![Image](DXLinkFormatter.png)
