@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<ArrayOfLinkProcessingInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <LinkProcessingInfo>
+    <Host>js.devexpress.com</Host>
+    <UseFragment>true</UseFragment>
+    <SegmentIndex>0</SegmentIndex>
+    <ParseTitleAttribute>false</ParseTitleAttribute>
+    <RemoveChars>_#</RemoveChars>
+    <ReplaceChars>/&gt;</ReplaceChars>
+    <TrimChars> &gt;</TrimChars>
+  </LinkProcessingInfo>
+  <LinkProcessingInfo>
+    <Host>docs.devexpress.com</Host>
+    <UseFragment>false</UseFragment>
+    <SegmentIndex>0</SegmentIndex>
+    <ParseTitleAttribute>true</ParseTitleAttribute>
+  </LinkProcessingInfo>
+  <LinkProcessingInfo>
+    <Host>codepen.io</Host>
+    <StaticTitle>CodePen Example</StaticTitle>
+    <UseFragment>false</UseFragment>
+    <SegmentIndex>0</SegmentIndex>
+    <ParseTitleAttribute>false</ParseTitleAttribute>
+  </LinkProcessingInfo>
+  <LinkProcessingInfo>
+    <Host>stackblitz.com</Host>
+    <StaticTitle>StackBlitz Example</StaticTitle>
+    <UseFragment>false</UseFragment>
+    <SegmentIndex>0</SegmentIndex>
+    <ParseTitleAttribute>false</ParseTitleAttribute>
+  </LinkProcessingInfo>
+  <LinkProcessingInfo>
+    <Host>jsfiddle.net</Host>
+    <StaticTitle>JSFiddle Example</StaticTitle>
+    <UseFragment>false</UseFragment>
+    <SegmentIndex>0</SegmentIndex>
+    <ParseTitleAttribute>false</ParseTitleAttribute>
+  </LinkProcessingInfo>
+</ArrayOfLinkProcessingInfo>
