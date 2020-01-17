@@ -8,4 +8,5 @@ public class LinkProcessingInfo {
     public string RemoveChars { get; set; }
     public string ReplaceChars { get; set; }
     public string TrimChars { get; set; }
+    public bool SplitCamelCase { get; set; }
 }

@@ -93,7 +93,7 @@ namespace DXLinkFormatter {
             var result = "<EmptyTitle>";
             var host = uri.Host;
 
-            var rule = list.Find(lpi => lpi.Host.Equals(uri.Host, StringComparison.InvariantCultureIgnoreCase));
+            var rule = FindBestMatch(uri);
 
             if (rule != null) {
                 if (!string.IsNullOrEmpty(rule.StaticTitle))
@@ -107,7 +107,7 @@ namespace DXLinkFormatter {
                     }
                 }
                 else if (!rule.ParseTitleAttribute) {
-                    result = uri.Segments[uri.Segments.Length - rule.SegmentIndex];
+                    result = uri.Segments[uri.Segments.Length - rule.SegmentIndex - 1];
                 }
             }
 
@@ -149,6 +149,24 @@ namespace DXLinkFormatter {
                 if (!string.IsNullOrEmpty(rule.TrimChars)) {
                     result = result.Trim(rule.TrimChars.ToCharArray());
                 }
+
+                if (rule.SplitCamelCase)
+                    result = Regex.Replace(result, "(\\B[A-Z])", " $1");
+            }
+
+            return result;
+        }
+
+        private LinkProcessingInfo FindBestMatch(Uri uri) {
+            // Host-matching rule:
+            var result = list.Find(lpi => lpi.Host.Equals(uri.Host, StringComparison.InvariantCultureIgnoreCase));
+            
+            // Check for exact match:
+            foreach (var rule in list) {
+                if (uri.AbsoluteUri.Replace(uri.Scheme + "://", "").StartsWith(rule.Host, StringComparison.InvariantCultureIgnoreCase)) {
+                    result = rule;
+                    break;
+                }
             }
 
             return result;
@@ -173,6 +191,10 @@ namespace DXLinkFormatter {
             using (Stream fStream = new FileStream(settingsPath, FileMode.Truncate, FileAccess.Write)) {
                 xmlFormat.Serialize(fStream, list);
             }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e) {
+            Application.Exit();
         }
     }
 }

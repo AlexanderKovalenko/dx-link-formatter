@@ -1,6 +1,16 @@
 <?xml version="1.0"?>
 <ArrayOfLinkProcessingInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <LinkProcessingInfo>
+    <Host>js.devexpress.com/demos</Host>
+    <UseFragment>false</UseFragment>
+    <SegmentIndex>2</SegmentIndex>
+    <ParseTitleAttribute>false</ParseTitleAttribute>
+    <RemoveChars>_#</RemoveChars>
+    <ReplaceChars>/&gt;</ReplaceChars>
+    <TrimChars> &gt;</TrimChars>
+    <SplitCamelCase>true</SplitCamelCase>
+  </LinkProcessingInfo>
+  <LinkProcessingInfo>
     <Host>js.devexpress.com</Host>
     <UseFragment>true</UseFragment>
     <SegmentIndex>0</SegmentIndex>
