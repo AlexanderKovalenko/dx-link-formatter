@@ -21,9 +21,12 @@
   </LinkProcessingInfo>
   <LinkProcessingInfo>
     <Host>docs.devexpress.com</Host>
-    <UseFragment>false</UseFragment>
-    <SegmentIndex>0</SegmentIndex>
+    <UseFragment>true</UseFragment>
+    <SegmentIndex>-1</SegmentIndex>
     <ParseTitleAttribute>true</ParseTitleAttribute>
+    <RemoveChars>-#</RemoveChars>
+    <SplitAndTake>|0</SplitAndTake>
+    <CapitalizeWords>true</CapitalizeWords>
   </LinkProcessingInfo>
   <LinkProcessingInfo>
     <Host>codepen.io</Host>

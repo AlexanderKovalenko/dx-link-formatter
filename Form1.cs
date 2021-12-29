@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
@@ -87,6 +89,20 @@ namespace DXLinkFormatter {
 
                 Clipboard.SetDataObject(currentFormattedLink, true, 10, 100);
             }
+
+            // Extra space removal logic (for code blocks)
+            if (!string.IsNullOrEmpty(clipboardText)) {
+                var spaceCount = -1;
+                while (clipboardText[++spaceCount] == ' ') ;
+                if (spaceCount > 0) {
+                    var result = string.Empty;
+                    var lines = clipboardText.Lines();
+                    foreach (var line in lines) {
+                        result += line.Substring(spaceCount) + Environment.NewLine;
+                    }
+                    Clipboard.SetDataObject(result, true, 10, 100);
+                }
+            }
         }
 
         private string CalculateLinkTitle(Uri uri) {
@@ -102,7 +118,8 @@ namespace DXLinkFormatter {
                     if (!string.IsNullOrEmpty(uri.Fragment)) {
                         result = uri.Fragment;
                     }
-                    else {
+                    else if (rule.SegmentIndex != -1) { // If # Fragment is not specified, use Segment[SegmentIndex]
+                        rule.SegmentIndex = 0;
                         result = uri.Segments[uri.Segments.Length - rule.SegmentIndex - 1];
                     }
                 }
@@ -111,7 +128,10 @@ namespace DXLinkFormatter {
                 }
             }
 
+            bool titleParsed = false;
+
             if (result == "<EmptyTitle>") {
+                titleParsed = true;
                 HttpWebRequest httpWebRequest = WebRequest.CreateHttp(uri);
                 httpWebRequest.Method = "GET";
                 httpWebRequest.Timeout = 30000;
@@ -152,6 +172,19 @@ namespace DXLinkFormatter {
 
                 if (rule.SplitCamelCase)
                     result = Regex.Replace(result, "(\\B[A-Z])", " $1");
+
+                if (!string.IsNullOrEmpty(rule.SplitAndTake)) {
+                    var parts = result.Split(rule.SplitAndTake[0]);
+                    result = parts[Convert.ToInt32(rule.SplitAndTake[1].ToString())];
+                }
+
+                if (rule.CapitalizeWords && !titleParsed) {
+                    CultureInfo cultureInfo = Thread.CurrentThread.CurrentCulture;
+                    TextInfo textInfo = cultureInfo.TextInfo;
+
+                    result = textInfo.ToTitleCase(result);
+                    result = Regex.Replace(result, @"(\s(a|and|of|in|by|the)|\'[st])\b", m => m.Value.ToLower(), RegexOptions.IgnoreCase);
+                }
             }
 
             return result;

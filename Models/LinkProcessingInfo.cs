@@ -9,4 +9,6 @@ public class LinkProcessingInfo {
     public string ReplaceChars { get; set; }
     public string TrimChars { get; set; }
     public bool SplitCamelCase { get; set; }
+    public string SplitAndTake { get; set; }
+    public bool CapitalizeWords { get; set; }
 }
