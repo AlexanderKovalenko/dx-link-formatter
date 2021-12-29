@@ -111,6 +111,15 @@ namespace DXLinkFormatter {
 
             var rule = FindBestMatch(uri);
 
+            if (uri.Host.StartsWith("github.com", StringComparison.InvariantCultureIgnoreCase)) {
+                result = ParseTagFromUrl(uri, "h1");
+
+                // Fallback: get first fragment of the URL (assuming file name and line number)
+                if (result == string.Empty) {
+                    result = uri.Segments[uri.Segments.Length - 1] + uri.Fragment;
+                }
+            }
+
             if (rule != null) {
                 if (!string.IsNullOrEmpty(rule.StaticTitle))
                     result = rule.StaticTitle;
@@ -132,25 +141,7 @@ namespace DXLinkFormatter {
 
             if (result == "<EmptyTitle>") {
                 titleParsed = true;
-                HttpWebRequest httpWebRequest = WebRequest.CreateHttp(uri);
-                httpWebRequest.Method = "GET";
-                httpWebRequest.Timeout = 30000;
-                httpWebRequest.UserAgent = @"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36";
-                httpWebRequest.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
-
-                try {
-                    using (WebResponse response = httpWebRequest.GetResponse()) {
-                        using (StreamReader streamReader = new StreamReader(response.GetResponseStream())) {
-
-                            result = GetTitleFromHtml(streamReader.ReadToEnd());
-
-                            streamReader.Close();
-                        }
-                    }
-                }
-                catch (Exception ex) {
-                    UIHelper.ShowInfo(ex.Message);
-                }
+                result = ParseTagFromUrl(uri, "title");
             }
 
             if (rule != null) {
@@ -213,6 +204,49 @@ namespace DXLinkFormatter {
                 title = titleMatch.Groups[1].Value;
 
             return title;
+        }
+
+        private string GetH1FromHtml(string html) {
+            string title = string.Empty;
+            Match titleMatch = Regex.Match(html, "<h1 dir=\"auto\">\\s*(.+?)\\s*</h1>", RegexOptions.IgnoreCase);
+
+            if (titleMatch.Success) {
+                var doc = new System.Xml.XmlDocument();
+
+                doc.LoadXml(titleMatch.Groups[0].Value);
+
+                title = doc.InnerText;
+            }
+
+            return title;
+        }
+
+        private string ParseTagFromUrl(Uri url, string tag) {
+            string result = string.Empty;
+
+            HttpWebRequest httpWebRequest = WebRequest.CreateHttp(url);
+            httpWebRequest.Method = "GET";
+            httpWebRequest.Timeout = 30000;
+            httpWebRequest.UserAgent = @"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36";
+            httpWebRequest.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
+            try {
+                using (WebResponse response = httpWebRequest.GetResponse()) {
+                    using (StreamReader streamReader = new StreamReader(response.GetResponseStream())) {
+                        var html = streamReader.ReadToEnd();
+
+                        if (tag.Equals("title", StringComparison.InvariantCultureIgnoreCase))
+                            result = GetTitleFromHtml(html);
+                        else if (tag.Equals("h1", StringComparison.InvariantCultureIgnoreCase))
+                            result = GetH1FromHtml(html);
+
+                        streamReader.Close();
+                    }
+                }
+            } catch (Exception ex) {
+                UIHelper.ShowInfo(ex.Message);
+            }
+
+            return result;
         }
 
         private void button1_Click(object sender, EventArgs e) {
