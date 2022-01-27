@@ -126,6 +126,7 @@ namespace DXLinkFormatter {
                 else if (rule.UseFragment) {
                     if (!string.IsNullOrEmpty(uri.Fragment)) {
                         result = uri.Fragment;
+                        result = result.Replace('-', ' ');
                     }
                     else if (rule.SegmentIndex != -1) { // If # Fragment is not specified, use Segment[SegmentIndex]
                         rule.SegmentIndex = 0;
