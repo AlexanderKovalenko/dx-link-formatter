@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Web;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
@@ -37,6 +40,18 @@ namespace DXLinkFormatter {
             }
 
             dataGridView1.DataSource = new BindingList<LinkProcessingInfo>(list);
+        }
+
+        public Uri GetUriWithoutQueryParameters(Uri originalUri) {
+            var queryKeys = HttpUtility.ParseQueryString(originalUri.Query);
+            var keys = queryKeys.AllKeys.ToList();
+            
+            for (int i = 0; i < keys.Count; i++) {
+                if (keys[i].ToLower() != "v") // DX version
+                    queryKeys.Remove(keys[i]);
+            }
+
+            return new UriBuilder(originalUri) { Query = queryKeys.ToString() }.Uri;
         }
 
         private void notifyIcon1_MouseClick(object sender, MouseEventArgs e) {
@@ -85,7 +100,11 @@ namespace DXLinkFormatter {
                 title = CalculateLinkTitle(new Uri(clipboardText));
 
             if (!string.IsNullOrEmpty(title)) {
-                string currentFormattedLink = string.Format(LinkFormat, clipboardText, title.Trim());
+                var addressUri = new Uri(clipboardText);
+                var clipboardTextNoQueryString = GetUriWithoutQueryParameters(addressUri).ToString();
+                var currentFormattedLink = string.Format(LinkFormat, 
+                    addressUri.Host.ToLower().Contains("devexpress")? clipboardTextNoQueryString: addressUri.ToString(), 
+                    title.Trim());
 
                 Clipboard.SetDataObject(currentFormattedLink, true, 10, 100);
             }
@@ -175,7 +194,7 @@ namespace DXLinkFormatter {
                     TextInfo textInfo = cultureInfo.TextInfo;
 
                     result = textInfo.ToTitleCase(result);
-                    result = Regex.Replace(result, @"(\s(a|and|of|in|by|the)|\'[st])\b", m => m.Value.ToLower(), RegexOptions.IgnoreCase);
+                    result = Regex.Replace(result, @"(\s(a|and|of|in|by|the|for)|\'[st])\b", m => m.Value.ToLower(), RegexOptions.IgnoreCase);
                 }
             }
 
@@ -209,7 +228,7 @@ namespace DXLinkFormatter {
 
         private string GetH1FromHtml(string html) {
             string title = string.Empty;
-            Match titleMatch = Regex.Match(html, "<h1 dir=\"auto\">\\s*(.+?)\\s*</h1>", RegexOptions.IgnoreCase);
+            Match titleMatch = Regex.Match(html, "<h1\\s*(.+?)\\s*dir=\"auto\">\\s*(.+?)\\s*</h1>", RegexOptions.IgnoreCase);
 
             if (titleMatch.Success) {
                 var doc = new System.Xml.XmlDocument();
