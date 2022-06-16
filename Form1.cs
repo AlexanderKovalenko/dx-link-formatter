@@ -101,9 +101,9 @@ namespace DXLinkFormatter {
 
             if (!string.IsNullOrEmpty(title)) {
                 var addressUri = new Uri(clipboardText);
-                var clipboardTextNoQueryString = GetUriWithoutQueryParameters(addressUri).ToString();
+
                 var currentFormattedLink = string.Format(LinkFormat, 
-                    addressUri.Host.ToLower().Contains("devexpress")? clipboardTextNoQueryString: addressUri.ToString(), 
+                    addressUri.Host.ToLower().Contains("docs.devexpress") ? GetUriWithoutQueryParameters(addressUri).ToString() : addressUri.ToString(), 
                     title.Trim());
 
                 Clipboard.SetDataObject(currentFormattedLink, true, 10, 100);
