@@ -196,6 +196,12 @@ namespace DXLinkFormatter {
                     result = textInfo.ToTitleCase(result);
                     result = Regex.Replace(result, @"(\s(a|and|of|in|by|the|for)|\'[st])\b", m => m.Value.ToLower(), RegexOptions.IgnoreCase);
                 }
+
+                // Remove Class/Property/... postfix from title
+                var lower = result.Trim().ToLower();
+               
+                if (lower.EndsWith("class") || lower.EndsWith("property") || lower.EndsWith("method") || lower.EndsWith("event") || lower.EndsWith("enum")) // + constructor + namespace
+                    result = result.Substring(0, lower.LastIndexOf(' '));
             }
 
             return result;
