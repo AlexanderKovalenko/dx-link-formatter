@@ -40,6 +40,8 @@ namespace DXLinkFormatter {
             }
 
             dataGridView1.DataSource = new BindingList<LinkProcessingInfo>(list);
+
+            clipboardMonitor1_ClipboardChanged(null, null);
         }
 
         public Uri GetUriWithoutQueryParameters(Uri originalUri) {
@@ -85,8 +87,15 @@ namespace DXLinkFormatter {
         }
 
         private void clipboardMonitor1_ClipboardChanged(object sender, ClipboardChangedEventArgs e) {
-            string clipboardText = e.DataObject.GetData(typeof(string)) as string;
+            string clipboardText = string.Empty;
             string title = string.Empty;
+
+            if (e != null) {
+                clipboardText = e.DataObject.GetData(typeof(string)) as string;
+            }
+            else {
+                clipboardText = Clipboard.GetText();
+            }
 
             if (!checkBox1.Checked)
                 return;
@@ -200,7 +209,7 @@ namespace DXLinkFormatter {
                 // Remove Class/Property/... postfix from title
                 var lower = result.Trim().ToLower();
                
-                if (lower.EndsWith("class") || lower.EndsWith("property") || lower.EndsWith("method") || lower.EndsWith("event") || lower.EndsWith("enum")) // + constructor + namespace
+                if (lower.EndsWith("class") || lower.EndsWith("property") || lower.EndsWith("method") || lower.EndsWith("event") || lower.EndsWith("interface") || lower.EndsWith("enum")) // + constructor + namespace
                     result = result.Substring(0, lower.LastIndexOf(' '));
             }
 

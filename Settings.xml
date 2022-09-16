@@ -9,6 +9,7 @@
     <ReplaceChars>/&gt;</ReplaceChars>
     <TrimChars> &gt;</TrimChars>
     <SplitCamelCase>true</SplitCamelCase>
+    <CapitalizeWords>false</CapitalizeWords>
   </LinkProcessingInfo>
   <LinkProcessingInfo>
     <Host>js.devexpress.com</Host>
@@ -18,6 +19,8 @@
     <RemoveChars>_#</RemoveChars>
     <ReplaceChars>/&gt;</ReplaceChars>
     <TrimChars> &gt;</TrimChars>
+    <SplitCamelCase>false</SplitCamelCase>
+    <CapitalizeWords>false</CapitalizeWords>
   </LinkProcessingInfo>
   <LinkProcessingInfo>
     <Host>docs.devexpress.com</Host>
@@ -25,6 +28,7 @@
     <SegmentIndex>-1</SegmentIndex>
     <ParseTitleAttribute>true</ParseTitleAttribute>
     <RemoveChars>#</RemoveChars>
+    <SplitCamelCase>false</SplitCamelCase>
     <SplitAndTake>|0</SplitAndTake>
     <CapitalizeWords>true</CapitalizeWords>
   </LinkProcessingInfo>
@@ -34,6 +38,8 @@
     <UseFragment>false</UseFragment>
     <SegmentIndex>0</SegmentIndex>
     <ParseTitleAttribute>false</ParseTitleAttribute>
+    <SplitCamelCase>false</SplitCamelCase>
+    <CapitalizeWords>false</CapitalizeWords>
   </LinkProcessingInfo>
   <LinkProcessingInfo>
     <Host>stackblitz.com</Host>
@@ -41,6 +47,8 @@
     <UseFragment>false</UseFragment>
     <SegmentIndex>0</SegmentIndex>
     <ParseTitleAttribute>false</ParseTitleAttribute>
+    <SplitCamelCase>false</SplitCamelCase>
+    <CapitalizeWords>false</CapitalizeWords>
   </LinkProcessingInfo>
   <LinkProcessingInfo>
     <Host>jsfiddle.net</Host>
@@ -48,5 +56,16 @@
     <UseFragment>false</UseFragment>
     <SegmentIndex>0</SegmentIndex>
     <ParseTitleAttribute>false</ParseTitleAttribute>
+    <SplitCamelCase>false</SplitCamelCase>
+    <CapitalizeWords>false</CapitalizeWords>
+  </LinkProcessingInfo>
+  <LinkProcessingInfo>
+    <Host>docs.microsoft.com</Host>
+    <UseFragment>false</UseFragment>
+    <SegmentIndex>0</SegmentIndex>
+    <ParseTitleAttribute>true</ParseTitleAttribute>
+    <SplitCamelCase>false</SplitCamelCase>
+    <SplitAndTake>|0</SplitAndTake>
+    <CapitalizeWords>false</CapitalizeWords>
   </LinkProcessingInfo>
 </ArrayOfLinkProcessingInfo>
