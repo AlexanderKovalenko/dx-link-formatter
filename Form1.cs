@@ -203,7 +203,7 @@ namespace DXLinkFormatter {
                     TextInfo textInfo = cultureInfo.TextInfo;
 
                     result = textInfo.ToTitleCase(result);
-                    result = Regex.Replace(result, @"(\s(a|and|of|in|by|the|for)|\'[st])\b", m => m.Value.ToLower(), RegexOptions.IgnoreCase);
+                    result = Regex.Replace(result, @"(\s(a|and|of|in|at|by|the|for)|\'[st])\b", m => m.Value.ToLower(), RegexOptions.IgnoreCase);
                 }
 
                 // Remove Class/Property/... postfix from title
@@ -211,6 +211,15 @@ namespace DXLinkFormatter {
                
                 if (lower.EndsWith("class") || lower.EndsWith("property") || lower.EndsWith("method") || lower.EndsWith("event") || lower.EndsWith("interface") || lower.EndsWith("enum")) // + constructor + namespace
                     result = result.Substring(0, lower.LastIndexOf(' '));
+            }
+
+            // TODO: Simplify JS-specific API title patch
+            if (uri.Host.StartsWith("docs.devexpress.com", StringComparison.InvariantCultureIgnoreCase)) {
+                if (result.TrimStart().ToLower().StartsWith("js_")) {
+                    if (result.LastIndexOf("_") != result.Length - 1) {
+                        result = result.Substring(result.LastIndexOf("_") + 1).ToLower();
+                    }
+                }
             }
 
             return result;
