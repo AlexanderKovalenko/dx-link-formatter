@@ -44,16 +44,16 @@ namespace DXLinkFormatter {
             clipboardMonitor1_ClipboardChanged(null, null);
         }
 
-        public Uri GetUriWithoutQueryParameters(Uri originalUri) {
+        public string GetAddressWithoutQueryParameters(Uri originalUri, List<string> paramsToKeep) {
             var queryKeys = HttpUtility.ParseQueryString(originalUri.Query);
             var keys = queryKeys.AllKeys.ToList();
             
             for (int i = 0; i < keys.Count; i++) {
-                if (keys[i].ToLower() != "v") // DX version
+                if (paramsToKeep.Count > 0 && !paramsToKeep.Contains(keys[i].ToLower()))
                     queryKeys.Remove(keys[i]);
             }
 
-            return new UriBuilder(originalUri) { Query = queryKeys.ToString() }.Uri;
+            return new UriBuilder(originalUri) { Query = queryKeys.ToString() }.Uri.ToString();
         }
 
         private void notifyIcon1_MouseClick(object sender, MouseEventArgs e) {
@@ -109,11 +109,7 @@ namespace DXLinkFormatter {
                 title = CalculateLinkTitle(new Uri(clipboardText));
 
             if (!string.IsNullOrEmpty(title)) {
-                var addressUri = new Uri(clipboardText);
-
-                var currentFormattedLink = string.Format(LinkFormat, 
-                    addressUri.Host.ToLower().Contains("docs.devexpress") ? GetUriWithoutQueryParameters(addressUri).ToString() : addressUri.ToString(), 
-                    title.Trim());
+                var currentFormattedLink = string.Format(LinkFormat, CalculateLinkAddress(new Uri(clipboardText)), title.Trim());
 
                 Clipboard.SetDataObject(currentFormattedLink, true, 10, 100);
             }
@@ -131,6 +127,18 @@ namespace DXLinkFormatter {
                     Clipboard.SetDataObject(result, true, 10, 100);
                 }
             }
+        }
+
+        private string CalculateLinkAddress(Uri uri) {
+            var host = uri.Host.ToLower();
+            var paramsToKeep = new List<string>();
+
+            if (host.Contains("docs.devexpress"))
+                paramsToKeep.AddRange(new string[] { "v" });
+            else if (host.Contains("learn.microsoft.com"))
+                paramsToKeep.AddRange(new string[] { "view" });
+
+            return GetAddressWithoutQueryParameters(uri, paramsToKeep);
         }
 
         private string CalculateLinkTitle(Uri uri) {
@@ -214,7 +222,7 @@ namespace DXLinkFormatter {
             }
 
             // TODO: Simplify JS-specific API title patch
-            if (uri.Host.StartsWith("docs.devexpress.com", StringComparison.InvariantCultureIgnoreCase)) {
+            if (uri.Host.ToLower().Contains("docs.devexpress")) {
                 if (result.TrimStart().ToLower().StartsWith("js_")) {
                     if (result.LastIndexOf("_") != result.Length - 1) {
                         result = result.Substring(result.LastIndexOf("_") + 1).ToLower();
