@@ -15,6 +15,7 @@ using System.Xml.Serialization;
 namespace DXLinkFormatter {
     public partial class Form1 : Form {
         private static readonly Regex UrlRegex = new Regex(@"^(http|https|ms-help)\://[a-zA-Z0-9\-\.]+(\.[a-zA-Z]{2,3})?(\:\d{1,5})?([\\/]\S*)?$", RegexOptions.IgnoreCase);
+        private static readonly Regex UrlFormattedRegex = new Regex(@"^\[.*\]\((?<url>.+)\)$", RegexOptions.IgnoreCase);
         private static string LinkFormat = "[{1}]({0})";
         private string lastText;
 
@@ -80,6 +81,17 @@ namespace DXLinkFormatter {
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e) {
             formatLinksToolStripMenuItem.Checked = checkBox1.Checked;
+
+            if (checkBox1.Checked) {
+                clipboardMonitor1_ClipboardChanged(null, null);
+            }
+            else {
+                var clipboardText = Clipboard.GetText();
+                var match = UrlFormattedRegex.Match(clipboardText);
+
+                if (match.Success)
+                    Clipboard.SetText(match.Groups["url"].Value);
+            }
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e) {
