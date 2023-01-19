@@ -77,4 +77,13 @@
 		<SplitAndTake>|0</SplitAndTake>
 		<CapitalizeWords>false</CapitalizeWords>
 	</LinkProcessingInfo>
+	<LinkProcessingInfo>
+		<Host>nuget.devexpress.com</Host>
+		<UseFragment>false</UseFragment>
+		<SegmentIndex>1</SegmentIndex>
+		<ParseTitleAttribute>false</ParseTitleAttribute>
+		<RemoveChars>/</RemoveChars>
+		<SplitCamelCase>false</SplitCamelCase>
+		<CapitalizeWords>false</CapitalizeWords>
+	</LinkProcessingInfo>
 </ArrayOfLinkProcessingInfo>
