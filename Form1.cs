@@ -293,6 +293,7 @@ namespace DXLinkFormatter {
             httpWebRequest.Timeout = 30000;
             httpWebRequest.UserAgent = @"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36";
             httpWebRequest.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
+            
             try {
                 using (WebResponse response = httpWebRequest.GetResponse()) {
                     using (StreamReader streamReader = new StreamReader(response.GetResponseStream())) {
@@ -309,6 +310,8 @@ namespace DXLinkFormatter {
             } catch (Exception ex) {
                 UIHelper.ShowInfo(ex.Message);
             }
+
+            result = HttpUtility.HtmlDecode(result);
 
             return result;
         }
