@@ -117,8 +117,14 @@ namespace DXLinkFormatter {
 
             lastText = clipboardText;
 
-            if (!string.IsNullOrEmpty(clipboardText) && UrlRegex.IsMatch(clipboardText))
-                title = CalculateLinkTitle(new Uri(clipboardText));
+            if (!string.IsNullOrEmpty(clipboardText) && UrlRegex.IsMatch(clipboardText)) {
+                var uri = new Uri(clipboardText);
+
+                if (uri.Host.ToLower() == "localhost")
+                    return;
+                
+                title = CalculateLinkTitle(uri);
+            }
 
             if (!string.IsNullOrEmpty(title)) {
                 var currentFormattedLink = string.Format(LinkFormat, CalculateLinkAddress(new Uri(clipboardText)), title.Trim());
