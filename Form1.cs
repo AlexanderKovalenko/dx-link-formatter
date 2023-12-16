@@ -117,6 +117,8 @@ namespace DXLinkFormatter {
 
             lastText = clipboardText;
 
+            Program.ClipboardRecordsForm.AddNewRecord(clipboardText, ClipboardContentType.Text);
+
             if (!string.IsNullOrEmpty(clipboardText) && UrlRegex.IsMatch(clipboardText)) {
                 var uri = new Uri(clipboardText);
 

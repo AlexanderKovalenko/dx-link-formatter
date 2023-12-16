@@ -41,7 +41,8 @@
             // notifyIcon1
             // 
             this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.notifyIcon1.BalloonTipText = "Format links in the clipboard according to DXSupport format";
+            this.notifyIcon1.BalloonTipText = "Format links in the clipboard according to DXSupport format\r\nUse Shift+Ctrl+M to " +
+    "show Clipboard Manager";
             this.notifyIcon1.BalloonTipTitle = "DXLinkFormatter";
             this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip1;
             this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
@@ -92,7 +93,7 @@
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox1.Location = new System.Drawing.Point(12, 12);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(106, 21);
+            this.checkBox1.Size = new System.Drawing.Size(101, 20);
             this.checkBox1.TabIndex = 2;
             this.checkBox1.Text = "Format links";
             this.toolTip1.SetToolTip(this.checkBox1, "Apply formatting to links copied to the clipboard");
@@ -101,6 +102,7 @@
             // 
             // button1
             // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button1.Location = new System.Drawing.Point(12, 312);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 25);
