@@ -119,6 +119,11 @@ namespace DXLinkFormatter {
 
             Program.ClipboardRecordsForm.AddNewRecord(clipboardText, ClipboardContentType.Text);
 
+            bool shift = (Form.ModifierKeys & Keys.Shift) == Keys.Shift;
+
+            if (shift)
+                return;
+
             if (!string.IsNullOrEmpty(clipboardText) && UrlRegex.IsMatch(clipboardText)) {
                 var uri = new Uri(clipboardText);
 
@@ -333,6 +338,10 @@ namespace DXLinkFormatter {
             using (Stream fStream = new FileStream(settingsPath, FileMode.Truncate, FileAccess.Write)) {
                 xmlFormat.Serialize(fStream, list);
             }
+        }
+
+        private void clipboardManagerToolStripMenuItem_Click(object sender, EventArgs e) {
+            Program.ClipboardRecordsForm.Show();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e) {

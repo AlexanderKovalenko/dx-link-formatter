@@ -34,6 +34,7 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.button1 = new System.Windows.Forms.Button();
             this.clipboardMonitor1 = new DXLinkFormatter.ClipboardMonitor();
+            this.clipboardManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -54,21 +55,22 @@
             this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.formatLinksToolStripMenuItem,
+            this.clipboardManagerToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(162, 52);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(303, 104);
             // 
             // formatLinksToolStripMenuItem
             // 
             this.formatLinksToolStripMenuItem.Name = "formatLinksToolStripMenuItem";
-            this.formatLinksToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
+            this.formatLinksToolStripMenuItem.Size = new System.Drawing.Size(302, 24);
             this.formatLinksToolStripMenuItem.Text = "Format Links";
             this.formatLinksToolStripMenuItem.Click += new System.EventHandler(this.formatLinksToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(302, 24);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -122,6 +124,15 @@
             this.clipboardMonitor1.Visible = false;
             this.clipboardMonitor1.ClipboardChanged += new System.EventHandler<DXLinkFormatter.ClipboardChangedEventArgs>(this.clipboardMonitor1_ClipboardChanged);
             // 
+            // clipboardManagerToolStripMenuItem
+            // 
+            this.clipboardManagerToolStripMenuItem.Name = "clipboardManagerToolStripMenuItem";
+            this.clipboardManagerToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.M)));
+            this.clipboardManagerToolStripMenuItem.Size = new System.Drawing.Size(302, 24);
+            this.clipboardManagerToolStripMenuItem.Text = "Clipboard Manager";
+            this.clipboardManagerToolStripMenuItem.Click += new System.EventHandler(this.clipboardManagerToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -156,6 +167,7 @@
         private System.Windows.Forms.ToolStripMenuItem formatLinksToolStripMenuItem;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clipboardManagerToolStripMenuItem;
     }
 }
 
