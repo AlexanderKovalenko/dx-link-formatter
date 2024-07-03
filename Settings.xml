@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <ArrayOfLinkProcessingInfo>
 	<LinkProcessingInfo>
-		<Host>js.devexpress.com/demos</Host>
+		<Host>js.devexpress.com/jQuery/Demos</Host>
 		<UseFragment>false</UseFragment>
-		<SegmentIndex>2</SegmentIndex>
+		<SegmentIndex>1</SegmentIndex>
 		<ParseTitleAttribute>false</ParseTitleAttribute>
 		<RemoveChars>_#</RemoveChars>
 		<ReplaceChars>/&gt;</ReplaceChars>
