@@ -140,14 +140,14 @@ namespace DXLinkFormatter {
             }
 
             // Extra space removal logic (for code blocks)
-            if (!string.IsNullOrEmpty(clipboardText)) {
+            if (!string.IsNullOrWhiteSpace(clipboardText)) {
                 var spaceCount = -1;
                 while (clipboardText[++spaceCount] == ' ') ;
                 if (spaceCount > 0) {
                     var result = string.Empty;
                     var lines = clipboardText.Lines();
                     foreach (var line in lines) {
-                        result += line.Substring(spaceCount) + Environment.NewLine;
+                        result += (spaceCount < line.Length ? line.Substring(spaceCount) : line.TrimStart(' ', '\t')) + Environment.NewLine;
                     }
                     Clipboard.SetDataObject(result, true, 10, 100);
                 }
